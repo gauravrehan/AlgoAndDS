@@ -1,0 +1,9 @@
+                Worst-case Average-case/expected
+                Algorithm running time running time
+Insertion sort ‚        .n2/ ‚      .n2/
+Merge sort ‚        .n lg n/ ‚      .n lg n/
+Heapsort O          .n lg n/,        —
+Quicksort ‚             .n2/ ‚      .n lg n/ (expected)
+Counting sort ‚     .k C n/ ‚       .k C n/
+Radix sort ‚        .d.n C k// ‚      .d.n C k//
+Bucket sort ‚           .n2/ ‚          .n/ (average-case)
