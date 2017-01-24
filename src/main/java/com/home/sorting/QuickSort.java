@@ -6,7 +6,8 @@ package com.home.sorting;
  * Worst case: O(n^2)
  * Average case: O(nlogn)
  * Sorts in place.
- * Hence better than HeapSort
+ * Hence better than HeapSort (well heapsort also sorts in place so i need to revalidate this point)
+ *
  */
 public class QuickSort {
 }
