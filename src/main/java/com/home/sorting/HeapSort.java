@@ -50,13 +50,6 @@ public class HeapSort implements ISort {
         return (2 * i) + 2;
     }
 
-//    O(1)
-    private void swap(int[] array, int i, int j)
-    {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
 
 //    O(1)
     private int getHeapSize()
