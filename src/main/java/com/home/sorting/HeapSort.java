@@ -7,7 +7,8 @@ import java.util.Arrays;
  *
  * HeapSort uses a Heap Data Structure which can be used to build a priority Queue.
  * O(n) = nlogn
- *
+ * Building the max heap is O(n) and maxHeapify is executed for n-1 times with a complexity of O(logn) so
+ * overall complexity comes out to be nlogn
  * Sorts in place.
  *
  */
@@ -22,12 +23,14 @@ public class HeapSort implements ISort {
 
     }
 
+//    O(1)
     private void init(int[] A)
     {
         this.A = A;
         heapSize = arraySize = A.length;
     }
 
+//    O(1)
     private int getParentIndex(int i)
     {
         if(i == 0)
@@ -35,16 +38,19 @@ public class HeapSort implements ISort {
         return i/2 - 1;
     }
 
+//    O(1)
     private int getLeftChildIndex(int i)
     {
         return (2 * i) + 1;
     }
 
+//    O(1)
     private int getRightChildIndex(int i)
     {
         return (2 * i) + 2;
     }
 
+//    O(1)
     private void swap(int[] array, int i, int j)
     {
         int temp = array[i];
@@ -52,20 +58,24 @@ public class HeapSort implements ISort {
         array[j] = temp;
     }
 
+//    O(1)
     private int getHeapSize()
     {
         return heapSize;
     }
 
+//    O(1)
     private int getArraySize()
     {
         return arraySize;
     }
 
+//    O(1)
     private void reduceHeapSize()
     {
         heapSize -= 1;
     }
+
 
     private void maxHeapify(int[] array, int i)
     {
@@ -107,6 +117,7 @@ public class HeapSort implements ISort {
     @Override
     public void sort(int[] A) {
         init(A);
+//        takes O(n)
         buildMaxHeap();
 //        System.out.println(Arrays.toString(A));
         for (int i = arraySize - 2; i >= 0; i--) {
@@ -114,6 +125,8 @@ public class HeapSort implements ISort {
             swap(A, i + 1, 0);
 //            System.out.println(Arrays.toString(A));
             reduceHeapSize();
+
+//            takes O(log n)
             maxHeapify(A, 0);
 //            System.out.println(Arrays.toString(A));
         }
