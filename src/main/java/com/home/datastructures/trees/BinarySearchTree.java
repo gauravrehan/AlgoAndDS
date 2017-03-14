@@ -27,11 +27,11 @@ public class BinarySearchTree<T extends Comparable> {
     /*
     Done
      */
-    public TreeNode<T> treeMaximum()
+    public TreeNode<T> treeMaximum(TreeNode<T> node)
     {
-        if(root != null)
+        if(node != null)
         {
-            TreeNode<T> x = root, y = null;
+            TreeNode<T> x = node, y = null;
 
             while(x != null)
             {
@@ -46,11 +46,11 @@ public class BinarySearchTree<T extends Comparable> {
     /*
     Done
      */
-    public TreeNode<T> treeMinimum()
+    public TreeNode<T> treeMinimum(TreeNode<T> node)
     {
-        if(root != null)
+        if(node != null)
         {
-            TreeNode<T> x = root, y = null;
+            TreeNode<T> x = node, y = null;
 
             while(x != null)
             {
@@ -68,17 +68,47 @@ public class BinarySearchTree<T extends Comparable> {
     public TreeNode<T> getSuccessor(TreeNode<T> node)
     {
         /*
-        Case 1:
+        Case 1: If there is right sub-tree of the node then find the treeMinimum on that node
+        Case 2: if there is no right sub-tree then trace up parent by parent
          */
-        return node;
+        if(node.getRightChild() != null)
+            return this.treeMinimum(node.getRightChild());
+        else
+        {
+            TreeNode<T> x = node, y = x.getParent();
+            while (y != null && y.getRightChild() == x)
+            {
+                x = y;
+                y = x.getParent();
+
+            }
+            return y;
+        }
     }
 
     /*
-    TODO
+    Done
      */
     public TreeNode<T> getPredecessor(TreeNode<T> node)
     {
-        return node;
+            /*
+        Case 1: If there is right sub-tree of the node then find the treeMinimum on that node
+        Case 2: if there is no right sub-tree then trace up parent by parent
+         */
+        if(node.getLeftChild() != null)
+            return this.treeMaximum(node.getRightChild());
+        else
+        {
+            TreeNode<T> x = node, y = x.getParent();
+            while (y != null && y.getLeftChild() == x)
+            {
+                x = y;
+                y = x.getParent();
+
+            }
+            return y;
+        }
+
     }
 
     /*
@@ -136,7 +166,9 @@ public class BinarySearchTree<T extends Comparable> {
     }
 
     /*
-    TODO
+    Done - but not satisfied.
+    In CLRS, the logic is pretty small. rework this out.
+
      */
     public void deleteElement(T deleteValue)
     {
@@ -150,8 +182,69 @@ public class BinarySearchTree<T extends Comparable> {
         Case 3: If there are both children
             Find first successor with no left children
             Replace the to be deleted node with this idenfified child.
-            spice the moved nodes childern to moved node's parent.
+            splice the moved nodes childern to moved node's parent.
         */
+
+        TreeNode<T> nodeLocation = searchElement(root, deleteValue);
+        if(nodeLocation != null)
+        {
+            //case 1
+            if(nodeLocation.getLeftChild() == null && nodeLocation.getRightChild() == null)
+            {
+                if( nodeLocation.getParent().getLeftChild() == nodeLocation)
+                    nodeLocation.getParent().setLeftChild(null);
+                else
+                    nodeLocation.getParent().setRightChild(null);
+
+                nodeLocation.setParent(null);
+                return;
+            }
+            //case 2
+            if( (nodeLocation.getLeftChild() == null && nodeLocation.getRightChild() != null)
+                || (nodeLocation.getLeftChild() != null && nodeLocation.getRightChild() == null) )
+            {
+                TreeNode<T> child = nodeLocation.getLeftChild();
+                if(child != null)
+                {
+                    child.setParent(nodeLocation.getParent());
+                    nodeLocation.getParent().setLeftChild(child);
+                    nodeLocation.setParent(null);
+                    nodeLocation.setLeftChild(null);
+                }
+                else
+                {
+                    child.setParent(nodeLocation.getParent());
+                    nodeLocation.getParent().setRightChild(child);
+                    nodeLocation.setParent(null);
+                    nodeLocation.setRightChild(null);
+                }
+                return;
+            }
+            else
+            {
+                TreeNode<T> successor = this.getSuccessor(nodeLocation);
+
+                while(successor != null && successor.getLeftChild() != null)
+                {
+                    successor = this.getSuccessor(successor);
+                }
+
+                if(successor != null)
+                {
+                    //splice the successor child to successor parent
+                    successor.getParent().setRightChild(successor.getRightChild());
+                    successor.getRightChild().setParent(successor.getParent());
+                    //replace the nodeLocation with successor
+                    successor.setParent(nodeLocation.getParent());
+                    successor.setLeftChild(nodeLocation.getLeftChild());
+                    successor.setRightChild(nodeLocation.getRightChild());
+                    //nullify nodeLocation
+                    nodeLocation.setParent(null);
+                    nodeLocation.setLeftChild(null);
+                    nodeLocation.setRightChild(null);
+                }
+            }
+        }
 
     }
 
