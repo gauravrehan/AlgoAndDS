@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.home.ds.arrays.sorting.HeapSort;
+import com.home.ds.arrays.sorting.ISort;
+
 import java.util.Arrays;
 
 /**

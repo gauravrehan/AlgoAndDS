@@ -1,4 +1,4 @@
-package com.home.sorting;
+package com.home.ds.arrays.sorting;
 
 /**
  * Created by Gaurav on 05-02-2017.
